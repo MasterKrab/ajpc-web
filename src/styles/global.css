@@ -1,0 +1,60 @@
+:root {
+  --primary-color: ;
+  --secondary-color: ;
+  --tertiary-color: ;
+
+  /* --hightlight-color: ;
+   --success-color: ;
+   --error-color:; */
+
+  --primary-font: 'Roboto', sans-serif;
+}
+
+/* :root.theme-dark {
+
+} */
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  scrollbar-color: var(--primary-color) transparent;
+  scrollbar-width: thin;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--secondary-color);
+  font-family: var(--primary-font);
+  color: var(--primary-color);
+
+  /* transition: background-color 0.3s ease-in-out, color 0.2s ease-in-out; */
+}
+
+body::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+button {
+  background: none;
+  padding: 0;
+  border: none;
+}

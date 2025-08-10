@@ -15,7 +15,6 @@ const MENU_ITEMS = [
 
 <script>
   const navigation = document.getElementById('navigation')!
-  const navigationBackground = document.getElementById('navigation-background')!
   const openMenu = document.getElementById('open-menu')!
 
   openMenu.addEventListener('click', () => {
@@ -23,10 +22,6 @@ const MENU_ITEMS = [
     navigation.classList.toggle('navigation--active', isActive)
     openMenu.setAttribute('aria-checked', String(isActive))
     document.body.classList.toggle('body-menu-active', isActive)
-    navigationBackground.classList.toggle(
-      'navigation-background--active',
-      isActive,
-    )
   })
 </script>
 
@@ -41,8 +36,6 @@ const MENU_ITEMS = [
         height={50}
       />
     </a>
-
-    <div class="navigation-background" id="navigation-background"></div>
 
     <nav class="navigation" id="navigation">
       <ul class="menu">
@@ -73,9 +66,7 @@ const MENU_ITEMS = [
       id="open-menu"
       role="switch"
       aria-checked="false"
-      aria-label="Menú de navegación"
-    >
-    </button>
+      aria-label="Menú de navegación"></button>
   </div>
 </header>
 
@@ -164,41 +155,20 @@ const MENU_ITEMS = [
     transform: translateY(-0.75rem) rotate(-45deg);
   }
 
-  .navigation-background {
-    display: none;
-    background-color: rgba(0, 0, 0, 0.75);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-  }
-
   @media screen and (max-width: 768px) {
-    .navigation-background {
-      display: block;
-    }
-
-    .navigation-background,
     .navigation {
       position: absolute;
       top: 0;
       left: 0;
+      background-color: var(--foreground-color);
       width: 100vw;
       height: 100vh;
-    }
-
-    .navigation {
-      background-color: var(--foreground-color);
-      width: 70vw;
       transform: translateX(-200%);
       transition: transform 0.3s ease-in-out;
     }
 
-    .navigation--active,
-    .navigation-background--active {
+    .navigation--active {
       transform: translateX(0);
-    }
-
-    .navigation-background--active {
-      opacity: 1;
     }
 
     .open-menu {

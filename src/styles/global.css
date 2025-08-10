@@ -32,13 +32,13 @@
 }
 
 :root.high-contrast {
-  --brand-primary: #00e1ff;
-  --brand-secondary: #ffff00;
+  --brand-primary: #00ffdd;
+  --brand-secondary: #1eff00;
   --brand-tertiary: #ff00ff;
 
   --background-color: #000;
   --text-color-primary: #fff;
-  --text-color-secondary: #ffff00;
+  --text-color-secondary: #1eff00;
   --text-color-tertiary: #00ffff;
   --accent-color: var(--brand-primary);
   --foreground-color: #000;
@@ -88,6 +88,12 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
+}
+
+@media screen and (max-width: 768px) {
+  .body-menu-active {
+    overflow: hidden;
+  }
 }
 
 a {

@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@codemint/astro-meta": "^3.1.4",
     "@cxa/astro-inline-svg": "^0.5.1",
     "@fontsource-variable/onest": "^5.2.9",
     "@iconify-json/lucide": "^1.2.61",

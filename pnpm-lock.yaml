@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@codemint/astro-meta':
+        specifier: ^3.1.4
+        version: 3.1.4(astro@5.12.9(@types/node@24.2.1)(rollup@4.46.2)(typescript@5.9.2))
       '@cxa/astro-inline-svg':
         specifier: ^0.5.1
         version: 0.5.1(astro@5.12.9(@types/node@24.2.1)(rollup@4.46.2)(typescript@5.9.2))(typescript@5.9.2)
@@ -114,6 +117,11 @@ packages:
 
   '@capsizecss/unpack@2.4.0':
     resolution: {integrity: sha512-GrSU71meACqcmIUxPYOJvGKF0yryjN/L1aCuE9DViCTJI7bfkjgYDPD1zbNDcINJwSSP6UaBZY9GAbYDO7re0Q==}
+
+  '@codemint/astro-meta@3.1.4':
+    resolution: {integrity: sha512-ew+HmgYGm5nnSUb4V2pw9WA9RmnRKLFnbARtj2lCE8IveRlg2DlUKJKqZn3pEaIKY237Q+Tug2wkQMJQryuJjg==}
+    peerDependencies:
+      astro: ^5.4.0
 
   '@cxa/astro-inline-svg@0.5.1':
     resolution: {integrity: sha512-EGBr2L/Rxh6ukYWlx4qfzg9gdyBU7ZmWcScBApXfYfGw3MTIeSloyLNJR6bIgEvRWlkPNE4YiNf7h/hIAq0wRw==}
@@ -2958,6 +2966,10 @@ snapshots:
       fontkit: 2.0.4
     transitivePeerDependencies:
       - encoding
+
+  '@codemint/astro-meta@3.1.4(astro@5.12.9(@types/node@24.2.1)(rollup@4.46.2)(typescript@5.9.2))':
+    dependencies:
+      astro: 5.12.9(@types/node@24.2.1)(rollup@4.46.2)(typescript@5.9.2)
 
   '@cxa/astro-inline-svg@0.5.1(astro@5.12.9(@types/node@24.2.1)(rollup@4.46.2)(typescript@5.9.2))(typescript@5.9.2)':
     dependencies:

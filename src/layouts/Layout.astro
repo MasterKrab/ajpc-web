@@ -4,6 +4,8 @@ import '@fontsource-variable/onest'
 import '@styles/modern-normalize.css'
 import '@styles/global.css'
 
+import { ClientRouter } from 'astro:transitions'
+
 import LoadThemeScript from '@components/theme/LoadThemeScript.astro'
 import Header from '@components/Header.astro'
 import Aside from '@components/Aside.astro'
@@ -20,12 +22,13 @@ import Footer from '@components/Footer.astro'
     <title>AJPC</title>
     <LoadThemeScript />
     <meta name="generator" content={Astro.generator} />
+    <ClientRouter />
   </head>
   <body>
     <Header />
     <div class="container">
       <main class="main">
-        <slot />
+        <slot transition:animate="slide" />
       </main>
       <Aside />
     </div>
@@ -42,6 +45,7 @@ import Footer from '@components/Footer.astro'
     max-width: var(--page-max-width);
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
   }
 
   @media screen and (min-width: 600px) {

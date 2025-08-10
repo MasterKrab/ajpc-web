@@ -13,6 +13,23 @@ const MENU_ITEMS = [
 ]
 ---
 
+<script>
+  const navigation = document.getElementById('navigation')!
+  const navigationBackground = document.getElementById('navigation-background')!
+  const openMenu = document.getElementById('open-menu')!
+
+  openMenu.addEventListener('click', () => {
+    const isActive = openMenu.classList.toggle('open-menu--active')
+    navigation.classList.toggle('navigation--active', isActive)
+    openMenu.setAttribute('aria-checked', String(isActive))
+    document.body.classList.toggle('body-menu-active', isActive)
+    navigationBackground.classList.toggle(
+      'navigation-background--active',
+      isActive,
+    )
+  })
+</script>
+
 <header class="header">
   <div class="header__content">
     <a class="logo" href="/">
@@ -25,7 +42,9 @@ const MENU_ITEMS = [
       />
     </a>
 
-    <nav class="navigation">
+    <div class="navigation-background" id="navigation-background"></div>
+
+    <nav class="navigation" id="navigation">
       <ul class="menu">
         {
           MENU_ITEMS.map((item) => (
@@ -48,11 +67,22 @@ const MENU_ITEMS = [
     </nav>
 
     <ToggleTheme />
+
+    <button
+      class="open-menu"
+      id="open-menu"
+      role="switch"
+      aria-checked="false"
+      aria-label="Menú de navegación"
+    >
+    </button>
   </div>
 </header>
 
 <style>
   .header {
+    position: sticky;
+    top: 0;
     padding: 0.5rem 1rem;
     width: 100%;
     color: var(--text-color);
@@ -67,16 +97,106 @@ const MENU_ITEMS = [
   }
 
   .header__content {
-    display: grid;
-    grid-template-columns: 100px auto 100px;
+    display: flex;
     align-items: center;
+    gap: 1.5rem;
     max-width: var(--page-max-width);
     margin-left: auto;
     margin-right: auto;
   }
 
+  @media screen and (min-width: 768px) {
+    .header__content {
+      display: grid;
+      grid-template-columns: 100px auto 100px;
+      gap: 0;
+    }
+  }
+
   .logo {
+    position: relative;
+    z-index: 1000;
     align-self: end;
+  }
+
+  .open-menu {
+    box-sizing: content-box;
+    position: relative;
+    z-index: 10000;
+    display: none;
+    justify-self: end;
+    width: 2rem;
+    height: 1.5rem;
+    border-top: 0.2rem solid var(--text-color-primary);
+    order: 3;
+    transition: border-top-color 0.2s ease-in-out;
+  }
+
+  .open-menu::before,
+  .open-menu::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 0.2rem;
+    background-color: var(--text-color-primary);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .open-menu::before {
+    position: absolute;
+    top: 0.5rem;
+  }
+
+  .open-menu::after {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .open-menu--active {
+    border-top-color: transparent;
+  }
+
+  .open-menu--active::before {
+    transform: rotate(45deg);
+  }
+
+  .open-menu--active::after {
+    transform: translateY(-0.75rem) rotate(-45deg);
+  }
+
+  .navigation-background {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+
+  @media screen and (max-width: 768px) {
+    .navigation-background {
+      display: block;
+    }
+
+    .navigation-background,
+    .navigation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      transform: translateX(-200%);
+    }
+
+    .navigation {
+      width: 70vw;
+      background-color: var(--foreground-color);
+    }
+
+    .navigation--active,
+    .navigation-background--active {
+      transform: translateX(0);
+    }
+
+    .open-menu {
+      display: inline-block;
+    }
   }
 
   .menu {
@@ -90,6 +210,14 @@ const MENU_ITEMS = [
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .menu {
+      flex-direction: column;
+      gap: 2.5rem;
+      font-size: 2rem;
+    }
   }
 
   .menu__item:hover {

@@ -31,8 +31,8 @@ const { metadata = {} } = Astro.props
     <slot name="head" />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
-    <FloatingFocus client:load />
-    <CursorEffect client:lazy />
+    <FloatingFocus />
+    <CursorEffect />
   </head>
   <body>
     <Header />

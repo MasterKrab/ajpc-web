@@ -11,7 +11,7 @@ import Metadata from '@components/Metadata.astro'
 import Header from '@components/Header.astro'
 import Aside from '@components/Aside.astro'
 import Footer from '@components/Footer.astro'
-import Messages from '@components/messages/Messages.astro'
+import FloatingFocus from '@components/FloatingFocus.astro'
 
 const { metadata = {} } = Astro.props
 ---
@@ -29,6 +29,7 @@ const { metadata = {} } = Astro.props
     <slot name="head" />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
+    <FloatingFocus client:load />
   </head>
   <body>
     <Header />

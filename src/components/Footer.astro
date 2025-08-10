@@ -24,7 +24,7 @@ import { Image } from 'astro:assets'
         </li>
         <li>
           <a
-            class="footer__logo-progcompcl"
+            class="footer__logo footer__logo--progcompcl"
             href="https://progcomp.cl/"
             aria-label="ProgComp CL"
             title="Sociedad Chile de Programación Competitiva"
@@ -35,7 +35,7 @@ import { Image } from 'astro:assets'
 
         <li>
           <a
-            class="footer__logo-oci"
+            class="footer__logo footer__logo--oci"
             href="https://www.olimpiada-informatica.cl/"
             aria-label="Con el apoyo de la Olimpiada Chilena de Informática"
             title="Olimpiada Chilena de Informática"
@@ -135,12 +135,15 @@ import { Image } from 'astro:assets'
       border-radius: 2rem;
     }
 
-    .footer__logo-progcompcl {
+    .footer__logo {
+      display: inline-block;
+    }
+
+    .footer__logo--progcompcl {
       color: var(--text-color);
     }
 
-    .footer__logo-oci {
-      display: inline-block;
+    .footer__logo--oci {
       background-color: var(--image-background-color);
       padding: 0.25rem 1rem;
       border-radius: 1rem;

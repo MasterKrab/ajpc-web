@@ -167,6 +167,8 @@ const MENU_ITEMS = [
   .navigation-background {
     display: none;
     background-color: rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
   }
 
   @media screen and (max-width: 768px) {
@@ -181,17 +183,22 @@ const MENU_ITEMS = [
       left: 0;
       width: 100vw;
       height: 100vh;
-      transform: translateX(-200%);
     }
 
     .navigation {
-      width: 70vw;
       background-color: var(--foreground-color);
+      width: 70vw;
+      transform: translateX(-200%);
+      transition: transform 0.3s ease-in-out;
     }
 
     .navigation--active,
     .navigation-background--active {
       transform: translateX(0);
+    }
+
+    .navigation-background--active {
+      opacity: 1;
     }
 
     .open-menu {

@@ -1,0 +1,18 @@
+<script>
+  import { fairyDustCursor } from 'cursor-effects'
+  import type { CursorEffectResult } from 'cursor-effects'
+
+  let fairyInstance: CursorEffectResult | null = null
+
+  const init = () => {
+    // @ts-ignore
+    fairyInstance = new fairyDustCursor({
+      colors: ['#116bb1', '#1eca6c', '#711e8c'],
+    })
+  }
+
+  const destroy = () => fairyInstance?.destroy()
+
+  document.addEventListener('astro:page-load', init)
+  document.addEventListener('astro:before-swap', destroy)
+</script>

@@ -122,3 +122,9 @@ button {
   color: var(--brand-primary);
   font-weight: bold;
 }
+
+h1 {
+  font-size: 3rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}

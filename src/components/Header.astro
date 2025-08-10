@@ -1,31 +1,60 @@
 ---
-import { Image } from 'astro:assets'
-import logoSVG from '@assets/logo.svg'
+import logoSVG from '@assets/logo.svg?raw'
+
+import Svg from '@cxa/astro-inline-svg'
+
+import ToggleTheme from '@components/theme/ToggleTheme.astro'
+
+const { pathname } = Astro.url
+
+const MENU_ITEMS = [
+  { href: '/', label: 'Inicio' },
+  { href: '/acerca', label: 'Acerca' },
+]
 ---
 
 <header class="header">
-  <a class="logo" href="/">
-    <Image
-      class="logo__image"
-      src={logoSVG}
-      alt="Academía Juvenil de Programación"
-      width={100}
-    />
-  </a>
+  <div class="header__content">
+    <a class="logo" href="/">
+      <Svg
+        class="logo__image"
+        raw={logoSVG}
+        aria-label="Academía Juvenil de Programación"
+        width={100}
+        height={50}
+      />
+    </a>
 
-  <nav class="navigation">
-    <ul class="menu">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/acerca">Acerca</a></li>
-    </ul>
-  </nav>
+    <nav class="navigation">
+      <ul class="menu">
+        {
+          MENU_ITEMS.map((item) => (
+            <li class="menu__item">
+              <a
+                class:list={[
+                  'menu__link',
+                  {
+                    'menu__link--active': `/${pathname}`.startsWith(item.href),
+                  },
+                ]}
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <ToggleTheme />
+  </div>
 </header>
 
 <style>
   .header {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
     color: var(--text-color);
     box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
     background-color: var(--foreground-color);
@@ -37,13 +66,16 @@ import logoSVG from '@assets/logo.svg'
     }
   }
 
-  .logo {
+  .header__content {
     display: grid;
-    place-content: center;
-    background-color: var(--foreground-color);
-    width: 130px;
-    height: 40px;
-    border-radius: 50px;
+    grid-template-columns: 100px auto 100px;
+    align-items: center;
+    max-width: var(--page-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .logo {
     align-self: end;
   }
 
@@ -58,5 +90,54 @@ import logoSVG from '@assets/logo.svg'
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0;
+  }
+
+  .menu__item:hover {
+    color: var(--menu-item-color, var(--text-color));
+  }
+
+  .menu__item:first-child {
+    --menu-item-color: var(--brand-primary);
+  }
+
+  .menu__item:nth-child(2) {
+    --menu-item-color: var(--brand-secondary);
+  }
+
+  .menu__item:nth-child(3) {
+    --menu-item-color: var(--brand-tertiary);
+  }
+
+  .menu__link,
+  .menu__link::before,
+  .menu__link::after {
+    transition: color 0.3s ease-in-out;
+    color: var(--menu-item-color, var(--text-color));
+  }
+
+  .menu__link::before,
+  .menu__link::after {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .menu__link::before {
+    content: '{';
+  }
+
+  .menu__link::after {
+    content: '}';
+  }
+
+  .menu__link--active::before,
+  .menu__link--active::after {
+    opacity: 1;
+  }
+
+  .menu__link:active::before,
+  .menu__link:hover::before,
+  .menu__link:active::after,
+  .menu__link:hover::after {
+    opacity: 1;
   }
 </style>

@@ -1,0 +1,86 @@
+---
+import messages from './messages'
+---
+
+<script>
+  import messages from './messages'
+
+  const list = document.getElementById('messages-list')!
+  const itemHeight = 100
+  const originalLength = messages.length
+
+  let offset = 0
+
+  const setTransition = (on: boolean) => {
+    if (on) list.classList.add('messages__list--transition')
+    else list.classList.remove('messages__list--transition')
+  }
+
+  const move = () => {
+    offset++
+    setTransition(true)
+    list.style.setProperty('--offset', `${-offset * itemHeight}px`)
+
+    if (offset !== originalLength) return
+
+    setTimeout(() => {
+      setTransition(false)
+      offset = 0
+      list.style.setProperty('--offset', `0px`)
+    }, 500)
+  }
+
+  setInterval(move, 1500)
+</script>
+
+<div class="messages">
+  <ul class="messages__list" id="messages-list">
+    {
+      [...messages, ...messages].map((message, i) => (
+        <li
+          class="messages__item"
+          data-index={i}
+          aria-hidden={i >= messages.length}
+        >
+          {message}
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .messages {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .messages__list {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 0;
+    width: 100%;
+    transform: translateY(var(--offset, 0px));
+  }
+
+  .messages__list--transition {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .messages__item {
+    display: grid;
+    place-items: center;
+    height: 100px;
+  }
+</style>

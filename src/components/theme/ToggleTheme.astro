@@ -1,0 +1,93 @@
+---
+import { Icon } from 'astro-icon/components'
+import { THEMES_ITEMS } from '@constants/themes'
+---
+
+<script>
+  import { getTheme, getDeviceSchema } from '@utils/getTheme'
+  import { THEMES, THEMES_ITEMS } from '@constants/themes'
+
+  const toggle = document.getElementById('toggle-theme')!
+  const icons = [...toggle.children]
+  const root = document.documentElement
+
+  const updateTheme = () => {
+    const theme = getTheme()
+
+    root.classList.remove(...Object.values(THEMES))
+    root.classList.add(theme)
+    toggle.setAttribute('aria-label', `Cambiar a tema ${theme}`)
+
+    icons.forEach((icon) => icon.classList.remove('toggle__icon--show'))
+
+    icons.forEach((icon) => {
+      if (icon.getAttribute('data-name') === theme)
+        icon.classList.add('toggle__icon--show')
+    })
+  }
+
+  toggle.addEventListener('click', () => {
+    const lastTheme = getTheme()
+    const index = THEMES_ITEMS.findIndex((item) => item.name === lastTheme)
+    const theme = THEMES_ITEMS[(index + 1) % THEMES_ITEMS.length].name
+
+    const mediaTheme = getDeviceSchema()
+
+    theme === mediaTheme
+      ? localStorage.removeItem('theme')
+      : localStorage.setItem('theme', theme)
+
+    updateTheme()
+  })
+
+  updateTheme()
+</script>
+
+<button class="toggle" id="toggle-theme" type="button"
+  >{
+    THEMES_ITEMS.map(({ name, label, iconName }) => (
+      <Icon
+        class="toggle__icon"
+        data-name={name}
+        name={iconName}
+        title={label}
+      />
+    ))
+  }
+</button>
+
+<style>
+  .toggle {
+    position: relative;
+    display: grid;
+    place-content: center;
+    justify-self: end;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--text-color);
+  }
+
+  .toggle__icon {
+    position: absolute;
+    scale: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .toggle__icon--show {
+    scale: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .toggle__icon {
+      rotate: 180deg;
+      transition:
+        scale 0.2s,
+        rotate 0.3s;
+    }
+
+    .toggle__icon--show {
+      rotate: 360deg;
+    }
+  }
+</style>

@@ -7,11 +7,11 @@ import { THEMES_ITEMS } from '@constants/themes'
   import { getTheme, getDeviceSchema } from '@utils/getTheme'
   import { THEMES, THEMES_ITEMS } from '@constants/themes'
 
-  const toggle = document.getElementById('toggle-theme')!
-  const icons = [...toggle.children]
-  const root = document.documentElement
-
   const updateTheme = () => {
+    const toggle = document.getElementById('toggle-theme')!
+    const icons = [...toggle.children]
+    const root = document.documentElement
+
     const theme = getTheme()
 
     root.classList.remove(...Object.values(THEMES))
@@ -26,21 +26,28 @@ import { THEMES_ITEMS } from '@constants/themes'
     })
   }
 
-  toggle.addEventListener('click', () => {
-    const lastTheme = getTheme()
-    const index = THEMES_ITEMS.findIndex((item) => item.name === lastTheme)
-    const theme = THEMES_ITEMS[(index + 1) % THEMES_ITEMS.length].name
+  const init = () => {
+    const toggle = document.getElementById('toggle-theme')!
 
-    const mediaTheme = getDeviceSchema()
+    toggle.addEventListener('click', () => {
+      const lastTheme = getTheme()
+      const index = THEMES_ITEMS.findIndex((item) => item.name === lastTheme)
+      const theme = THEMES_ITEMS[(index + 1) % THEMES_ITEMS.length].name
 
-    theme === mediaTheme
-      ? localStorage.removeItem('theme')
-      : localStorage.setItem('theme', theme)
+      const mediaTheme = getDeviceSchema()
+
+      theme === mediaTheme
+        ? localStorage.removeItem('theme')
+        : localStorage.setItem('theme', theme)
+
+      updateTheme()
+    })
 
     updateTheme()
-  })
+  }
 
-  updateTheme()
+  document.addEventListener('astro:page-load', init)
+  document.addEventListener('astro:after-swap', init)
 </script>
 
 <button class="toggle" id="toggle-theme" type="button"

@@ -15,12 +15,12 @@ import Footer from '@components/Footer.astro'
 <!doctype html>
 <html lang="es">
   <head>
+    <LoadThemeScript />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <slot name="head" />
     <title>AJPC</title>
-    <LoadThemeScript />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
   </head>

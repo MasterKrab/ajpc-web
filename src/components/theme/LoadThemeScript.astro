@@ -1,10 +1,9 @@
 <script is:inline>
-  import { THEMES } from '@constants/themes'
-  // export const THEMES = {
-  //   DARK: 'dark',
-  //   LIGHT: 'light',
-  //   HIGH_CONTRAST: 'high-contrast',
-  // }
+  const THEMES = {
+    DARK: 'dark',
+    LIGHT: 'light',
+    HIGH_CONTRAST: 'high-contrast',
+  }
 
   const getDeviceSchema = () => {
     if (window.matchMedia('prefers-color-scheme: more').matches)

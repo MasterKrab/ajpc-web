@@ -5,18 +5,20 @@ import messages from './messages'
 <script>
   import messages from './messages'
 
-  const list = document.getElementById('messages-list')!
   const itemHeight = 100
   const originalLength = messages.length
 
   let offset = 0
 
   const setTransition = (on: boolean) => {
+    const list = document.getElementById('messages-list')!
     if (on) list.classList.add('messages__list--transition')
     else list.classList.remove('messages__list--transition')
   }
 
   const move = () => {
+    const list = document.getElementById('messages-list')!
+
     offset++
     setTransition(true)
     list.style.setProperty('--offset', `${-offset * itemHeight}px`)
@@ -30,7 +32,24 @@ import messages from './messages'
     }, 500)
   }
 
-  setInterval(move, 1500)
+  const init = () => {
+    const list = document.getElementById('messages-list')!
+
+    setTimeout(() => {
+      setTransition(false)
+      list.style.setProperty('--offset', `${-offset * itemHeight}px`)
+
+      const interval = setInterval(move, 1500)
+
+      const destroy = () => {
+        clearInterval(interval)
+      }
+
+      document.addEventListener('astro:before-swap', destroy)
+    }, 500)
+  }
+
+  document.addEventListener('astro:page-load', init)
 </script>
 
 <div class="messages">

@@ -14,15 +14,19 @@ const MENU_ITEMS = [
 ---
 
 <script>
-  const navigation = document.getElementById('navigation')!
-  const openMenu = document.getElementById('open-menu')!
+  const init = () => {
+    const navigation = document.getElementById('navigation')!
+    const openMenu = document.getElementById('open-menu')!
 
-  openMenu.addEventListener('click', () => {
-    const isActive = openMenu.classList.toggle('open-menu--active')
-    navigation.classList.toggle('navigation--active', isActive)
-    openMenu.setAttribute('aria-checked', String(isActive))
-    document.body.classList.toggle('body-menu-active', isActive)
-  })
+    openMenu.addEventListener('click', () => {
+      const isActive = openMenu.classList.toggle('open-menu--active')
+      navigation.classList.toggle('navigation--active', isActive)
+      openMenu.setAttribute('aria-checked', String(isActive))
+      document.body.classList.toggle('body-menu-active', isActive)
+    })
+  }
+
+  document.addEventListener('astro:page-load', init)
 </script>
 
 <header class="header">

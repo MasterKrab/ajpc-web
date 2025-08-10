@@ -1,0 +1,33 @@
+---
+const {
+  title,
+  description = '',
+  imageUrl = '/assets/banners/index.webp',
+} = Astro.props
+
+const siteUrl = import.meta.env.PUBLIC_URL || ''
+const fullTitle = title ? `${title} | AJPC` : 'AJPC'
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={siteUrl} />
+<meta
+  property="og:title"
+  content={title || 'Academia Juvenil de Programación'}
+/>
+<meta property="og:description" content={description} />
+<meta property="twitter:url" content={siteUrl} />
+<meta
+  property="twitter:title"
+  content={title || 'Academia Juvenil de Programación'}
+/>
+<meta name="twitter:description" content={description} />
+
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content="Descripción alternativa de la imagen" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content="Descripción alternativa de la imagen" />

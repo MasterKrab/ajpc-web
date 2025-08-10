@@ -7,6 +7,8 @@ import ToggleTheme from '@components/theme/ToggleTheme.astro'
 
 const { pathname } = Astro.url
 
+console.log(pathname)
+
 const MENU_ITEMS = [
   { href: '/', label: 'Inicio' },
   { href: '/acerca', label: 'Acerca' },
@@ -40,7 +42,10 @@ const MENU_ITEMS = [
                 class:list={[
                   'menu__link',
                   {
-                    'menu__link--active': `/${pathname}`.startsWith(item.href),
+                    'menu__link--active':
+                      item.href == '/'
+                        ? pathname == '/'
+                        : pathname.startsWith(item.href),
                   },
                 ]}
                 href={item.href}
@@ -112,7 +117,7 @@ const MENU_ITEMS = [
     justify-self: end;
     width: 2rem;
     height: 1.5rem;
-    border-top: 0.2rem solid var(--text-color-primary);
+    border-top: 0.25rem solid var(--text-color-primary);
     order: 3;
     transition: border-top-color 0.2s ease-in-out;
   }

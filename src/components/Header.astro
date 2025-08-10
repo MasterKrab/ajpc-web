@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets'
+import logoSVG from '@assets/logo.svg'
+---
+
+<header class="header">
+  <a class="logo" href="/">
+    <Image
+      class="logo__image"
+      src={logoSVG}
+      alt="Academía Juvenil de Programación"
+      width={100}
+    />
+  </a>
+
+  <nav class="navigation">
+    <ul class="menu">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/acerca">Acerca</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    padding: 0.5rem 1.5rem;
+    color: var(--text-color);
+    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    background-color: var(--foreground-color);
+  }
+
+  @media screen and (min-width: 768px) {
+    .header {
+      grid-column: span 2;
+    }
+  }
+
+  .logo {
+    display: grid;
+    place-content: center;
+    background-color: var(--foreground-color);
+    width: 130px;
+    height: 40px;
+    border-radius: 50px;
+    align-self: end;
+  }
+
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    height: 100%;
+    font-weight: bold;
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+</style>

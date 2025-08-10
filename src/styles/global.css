@@ -1,18 +1,17 @@
 :root {
-  --primary-color: ;
-  --secondary-color: ;
-  --tertiary-color: ;
+  --brand-primary: #116bb1;
+  --brand-secondary: #1eca6c;
+  --brand-tertiary: #711e8c;
 
-  /* --hightlight-color: ;
-   --success-color: ;
-   --error-color:; */
+  --background-color: #1eca6c;
+  --text-color-primary: #000000;
+  --text-color-secondary: #333333;
+  --text-color-tertiary: #f0f0f0;
+  --accent-color: var(--brand-primary);
+  --foreground-color: #f0f0f0;
 
   --primary-font: 'Roboto', sans-serif;
 }
-
-/* :root.theme-dark {
-
-} */
 
 *,
 *::before,
@@ -24,15 +23,22 @@ html {
   scrollbar-color: var(--primary-color) transparent;
   scrollbar-width: thin;
   box-sizing: border-box;
+  height: 100%;
 }
 
 body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  height: 100%;
+  background-color: var(--brand-secondary);
   margin: 0;
-  background-color: var(--secondary-color);
   font-family: var(--primary-font);
-  color: var(--primary-color);
-
-  /* transition: background-color 0.3s ease-in-out, color 0.2s ease-in-out; */
+  color: var(--text-color-primary);
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.2s ease-in-out;
 }
 
 body::-webkit-scrollbar {
@@ -43,6 +49,13 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
 }
 
+@media screen and (min-width: 768px) {
+  body {
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -50,11 +63,22 @@ a {
 
 img {
   display: block;
-  width: 100%;
 }
 
 button {
   background: none;
   padding: 0;
   border: none;
+}
+
+main {
+  padding: 0.5rem;
+  height: 100%;
+  background-color: var(--foreground-color);
+}
+
+@media screen and (min-width: 768px) {
+  main {
+    margin-left: 1rem;
+  }
 }

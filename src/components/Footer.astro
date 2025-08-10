@@ -1,124 +1,156 @@
 ---
 import logoBigSVG from '@assets/logo-big.svg?raw'
 import progcompclSVG from '@assets/progcompcl-logo.svg?raw'
+import ociSupportSVG from '@assets/oci-support.svg?raw'
 
 import Svg from '@cxa/astro-inline-svg'
 import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
 ---
 
 <footer class="footer">
   <div class="footer__content">
     <section aria-labelledby="footer-left-title">
-      <Svg
-        class="footer__logo"
-        raw={logoBigSVG}
-        aria-label="Academia Juvenil de Programación"
-        width={250}
-        height={50}
-        id="footer-left-title"
-      />
-      <p>Con el apoyo de:</p>
+      <ul class="footer__logo-list">
+        <li>
+          <Svg
+            class="footer__logo"
+            raw={logoBigSVG}
+            aria-label="Academia Juvenil de Programación"
+            width={250}
+            height={50}
+            id="footer-left-title"
+          />
+        </li>
+        <li>
+          <a
+            class="footer__logo-progcompcl"
+            href="https://progcomp.cl/"
+            aria-label="ProgComp CL"
+            title="Sociedad Chile de Programación Competitiva"
+          >
+            <Svg raw={progcompclSVG} width={200} />
+          </a>
+        </li>
 
-      <a
-        class="footer__logo-progcompcl"
-        href="https://progcomp.cl/"
-        aria-label="ProgComp CL"
-      >
-        <Svg raw={progcompclSVG} width={200} />
-      </a>
-    </section>
-    <section>
-      <h2 class="footer__title">Contacto</h2>
-      <p>
-        Puedes escribirnos a
-        <a href="mailto:academiajuvenilprogcomp@gmail.com"
-          >academiajuvenilprogcomp@gmail.com</a
-        >
-      </p>
-    </section>
-    <section>
-      <h2 class="footer__title">
-        <a
-          class="footer__social-link"
-          href="https://www.instagram.com/ajprogcomp/"
-        >
-          <Icon
-            name="skill-icons:instagram"
-            aria-hidden={true}
-            width={25}
-            height={25}
-          /> Instagram
-        </a>
-      </h2>
-      <p>
-        Puedes seguirnos en <a
-          class="footer__social-link"
-          href="https://www.instagram.com/ajprogcomp/"
-          >@ajprogcomp
-        </a> para ver más sobre nuestra academia y nuestras actividades.
-      </p>
+        <li>
+          <a
+            class="footer__logo-oci"
+            href="https://www.olimpiada-informatica.cl/"
+            aria-label="Con el apoyo de la Olimpiada Chilena de Informática"
+            title="Olimpiada Chilena de Informática"
+          >
+            <Svg raw={ociSupportSVG} width={200} />
+          </a>
+        </li>
+      </ul>
+      <section>
+        <h2 class="footer__title">Contacto</h2>
+        <p>
+          Puedes escribirnos a
+          <a href="mailto:academiajuvenilprogcomp@gmail.com"
+            >academiajuvenilprogcomp@gmail.com</a
+          >
+        </p>
+      </section>
+      <section>
+        <h2 class="footer__title">
+          <a
+            class="footer__social-link"
+            href="https://www.instagram.com/ajprogcomp/"
+          >
+            <Icon
+              name="skill-icons:instagram"
+              aria-hidden={true}
+              width={25}
+              height={25}
+            /> Instagram
+          </a>
+        </h2>
+        <p>
+          Puedes seguirnos en <a
+            class="footer__social-link"
+            href="https://www.instagram.com/ajprogcomp/"
+            >@ajprogcomp
+          </a> para ver más sobre nuestra academia y nuestras actividades.
+        </p>
+      </section>
     </section>
   </div>
-</footer>
 
-<style>
-  .footer {
-    background-color: var(--foreground-color);
-    padding: 1.5rem;
-    width: 100%;
-    transition: var(--transition-theme);
-    margin-top: auto;
-  }
-
-  @media screen and (min-width: 768px) {
+  <style>
     .footer {
-      grid-column: span 2;
+      background-color: var(--foreground-color);
+      padding: 1.5rem;
+      width: 100%;
+      transition: var(--transition-theme);
+      margin-top: auto;
     }
-  }
 
-  .footer__content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: 1.5rem;
-    max-width: var(--page-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
+    @media screen and (min-width: 768px) {
+      .footer {
+        grid-column: span 2;
+      }
+    }
 
-  .footer__content > section {
-    width: 250px;
-  }
-
-  .footer__right {
-    max-width: 30rem;
-  }
-
-  @media screen and (min-width: 768px) {
-    .footer__right {
+    .footer__content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+      gap: 1.5rem;
+      max-width: var(--page-max-width);
       margin-left: auto;
+      margin-right: auto;
     }
-  }
 
-  .footer__title {
-    font-size: 1.25rem;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+    .footer__content > section {
+      width: 250px;
+    }
 
-  .footer__logo-container {
-    display: inline-block;
-    padding: 1rem 1.5rem;
-    border-radius: 2rem;
-  }
+    .footer__logo-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
 
-  .footer__logo-progcompcl {
-    color: var(--text-color);
-  }
+    .footer__right {
+      max-width: 30rem;
+    }
 
-  .footer__social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-color);
-  }
-</style>
+    @media screen and (min-width: 768px) {
+      .footer__right {
+        margin-left: auto;
+      }
+    }
+
+    .footer__title {
+      font-size: 1.25rem;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .footer__logo-container {
+      display: inline-block;
+      padding: 1rem 1.5rem;
+      border-radius: 2rem;
+    }
+
+    .footer__logo-progcompcl {
+      color: var(--text-color);
+    }
+
+    .footer__logo-oci {
+      display: inline-block;
+      background-color: var(--image-background-color);
+      padding: 0.25rem 1rem;
+      border-radius: 1rem;
+    }
+
+    .footer__social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-color);
+    }
+  </style>
+</footer>

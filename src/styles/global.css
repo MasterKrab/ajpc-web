@@ -66,7 +66,8 @@ body {
 
   justify-items: center;
   height: 100%;
-  background-color: var(--brand-secondary);
+  /* background-color: var(--brand-secondary); */
+  background-color: var(--foreground-color);
   margin: 0;
   font-family: var(--primary-font);
   color: var(--text-color-primary);

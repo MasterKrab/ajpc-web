@@ -5,5 +5,4 @@ import svelte from '@astrojs/svelte'
 
 export default defineConfig({
   integrations: [icon(), svelte()],
-  output: 'server',
 })

@@ -1,0 +1,109 @@
+---
+interface Props {
+  key: string
+  username: string
+  invalidateCache?: boolean
+  maxCaptionSize?: number
+}
+
+interface Data {
+  username: string
+  profileURL: string
+  post: {
+    url: string
+    caption: string
+    likes: number
+  }
+}
+
+const {
+  username,
+  key,
+  invalidateCache = false,
+  maxCaptionSize = 200,
+} = Astro.props
+
+// @ts-ignore
+const cacheStore = (globalThis.cache ??= new Map<string, Data>())
+
+if (invalidateCache || !cacheStore.has(key)) {
+  const response = await fetch(
+    `https://i.instagram.com/api/v1/users/web_profile_info/?username=${username}`,
+    {
+      headers: {
+        Accept: '*/*',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9,ru;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'x-ig-app-id': '936619743392459',
+        'Sec-Fetch-Site': 'same-origin',
+      },
+    },
+  )
+
+  const { data } = await response.json()
+
+  const post = data?.user?.edge_owner_to_timeline_media.edges[0].node
+
+  cacheStore.set(key, {
+    username,
+    profileURL: data?.user?.profile_pic_url,
+    post: {
+      url: post.display_url,
+      caption: post.edge_media_to_caption.edges[0]?.node.text,
+      likes: post.edge_media_preview_like.count,
+    },
+  })
+}
+
+const getImage = async (url: string) => {
+  const response = await fetch(url)
+  const buffer = await response.arrayBuffer()
+  const base64 = Buffer.from(buffer).toString('base64')
+  return `data:image/jpeg;base64,${base64}`
+}
+
+const { profileURL, post } = cacheStore.get(key)!
+const { url: postImageURL, caption, likes } = post
+
+const profileImage = await getImage(profileURL)
+const postImage = await getImage(postImageURL)
+---
+
+<article class="widget">
+  <header class="widget__header">
+    <h2 class="widget__title">{username}</h2>
+    <img class="widget__profile-image" src={profileImage} />
+  </header>
+
+  <img class="widget__post-image" src={postImage} />
+  <p>
+    {
+      caption.length > maxCaptionSize
+        ? `${caption.slice(0, maxCaptionSize)}...`
+        : caption
+    }
+  </p>
+</article>
+
+<style>
+  .widget__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .widget__title {
+    order: 1;
+    font-size: 1.25rem;
+  }
+
+  .widget__profile-image {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+</style>

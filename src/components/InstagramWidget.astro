@@ -78,21 +78,32 @@ const { url: postImageURL, caption } = post
 
 const profileImage = await getImage(profileURL)
 const postImage = await getImage(postImageURL)
+
+const profileLink = `https://www.instagram.com/${username}/`
 ---
 
 <article class="widget">
   <header class="widget__header">
-    <h2 class="widget__title">{username}</h2>
-    <img class="widget__profile-image" src={profileImage} />
+    <h2 class="widget__title">
+      <a href={profileLink} target="_blank" rel="noopener noreferrer"
+        >{username}</a
+      >
+    </h2>
+    <a href={profileLink} target="_blank" rel="noopener noreferrer">
+      <img class="widget__profile-image" src={profileImage} />
+    </a>
   </header>
-
-  <img class="widget__post-image" src={postImage} />
+  <a href={postImageURL} target="_blank" rel="noopener noreferrer">
+    <img class="widget__post-image" src={postImage} />
+  </a>
   <p>
-    {
-      caption.length > maxCaptionSize
-        ? `${caption.slice(0, maxCaptionSize)}...`
-        : caption
-    }
+    <a href={postImageURL} target="_blank" rel="noopener noreferrer">
+      {
+        caption.length > maxCaptionSize
+          ? `${caption.slice(0, maxCaptionSize)}...`
+          : caption
+      }
+    </a>
   </p>
 </article>
 

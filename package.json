@@ -21,6 +21,7 @@
     "chrome-aws-lambda": "10.1.0",
     "cursor-effects": "1.0.17",
     "pnpm": "10.14.0",
+    "puppeteer-core": "13.3.2",
     "svelte": "^5.38.0"
   },
   "devDependencies": {

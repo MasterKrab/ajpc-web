@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
 
-import chromium from 'chrome-aws-lambda'
+import chromium from '@sparticuz/chromium-min'
 import puppeteer from 'puppeteer-core'
 import type { Browser } from 'puppeteer-core'
 
@@ -22,15 +22,14 @@ let browser: Browser | null = null
 
 const getProfile = async (take = 1) => {
   if (!browser) {
+    const isLocal = !!process.env.CHROME_EXECUTABLE_PATH
+
     browser = await puppeteer.launch({
-      args: chromium.args,
-      // @ts-ignore
+      args: isLocal ? puppeteer.defaultArgs() : chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      // @ts-ignore
+      executablePath:
+        process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath()),
       headless: chromium.headless,
-      // @ts-ignore
-      ignoreHTTPSErrors: true,
     })
   }
 
@@ -105,6 +104,8 @@ const getProfile = async (take = 1) => {
           }
         } catch (error) {
           console.error(error)
+        } finally {
+          await page.close()
         }
       }),
     )
@@ -112,7 +113,7 @@ const getProfile = async (take = 1) => {
     return {
       accountName: ACCOUNT_NAME,
       profileImage: profileImageBase64,
-      posts,
+      posts: posts.filter(Boolean),
     }
   } catch (error) {
     console.error(error)

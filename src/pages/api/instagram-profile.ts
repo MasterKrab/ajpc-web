@@ -1,7 +1,6 @@
 import type { APIRoute } from 'astro'
 
-import chromium from '@sparticuz/chromium-min'
-import puppeteer from 'puppeteer-core'
+import chromium from 'chrome-aws-lambda'
 import type { Browser } from 'puppeteer-core'
 
 const ACCOUNT_NAME = 'ajprogcomp'
@@ -24,12 +23,12 @@ const getProfile = async (take = 1) => {
   if (!browser) {
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH
 
-    browser = await puppeteer.launch({
-      args: isLocal ? puppeteer.defaultArgs() : chromium.args,
+    browser = await chromium.puppeteer.launch({
+      args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath:
-        process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath()),
+      executablePath: await chromium.executablePath,
       headless: chromium.headless,
+      ignoreHTTPSErrors: true,
     })
   }
 

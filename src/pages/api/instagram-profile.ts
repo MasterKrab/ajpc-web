@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
 
-import chromium from '@sparticuz/chromium'
+import chromium from 'chrome-aws-lambda'
 import puppeteer from 'puppeteer-core'
 import type { Browser } from 'puppeteer-core'
 
@@ -26,7 +26,7 @@ const getProfile = async (take = 1) => {
       args: chromium.args,
       // @ts-ignore
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(),
+      executablePath: await chromium.executablePath,
       // @ts-ignore
       headless: chromium.headless,
       // @ts-ignore

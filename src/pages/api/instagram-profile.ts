@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro'
 
-import puppeteer from 'puppeteer'
+import chromium from '@sparticuz/chromium'
+import puppeteer from 'puppeteer-core'
+import type { Browser } from 'puppeteer-core'
 
 const ACCOUNT_NAME = 'ajprogcomp'
 
@@ -16,8 +18,22 @@ const getImageBase64 = async (url: string) => {
   return imageBase64
 }
 
+let browser: Browser | null = null
+
 const getProfile = async (take = 1) => {
-  const browser = await puppeteer.launch()
+  if (!browser) {
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      // @ts-ignore
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      // @ts-ignore
+      headless: chromium.headless,
+      // @ts-ignore
+      ignoreHTTPSErrors: true,
+    })
+  }
+
   const page = await browser.newPage()
 
   try {

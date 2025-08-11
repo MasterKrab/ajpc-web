@@ -1,10 +1,10 @@
 ---
-import InstagramWidget from '@components/InstagramWidget.astro'
+import InstagramWidget from '@components/InstagramWidget.svelte'
 import Messages from '@components/messages/Messages.astro'
 ---
 
 <aside class="aside">
-  <InstagramWidget />
+  <InstagramWidget client:load={true} />
   <Messages />
 </aside>
 

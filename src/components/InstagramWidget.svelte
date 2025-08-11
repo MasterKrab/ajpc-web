@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte'
 
-  function loadInstagramScript() {
+  const loadInstagramScript = () => {
     return new Promise((resolve, reject) => {
       if (
         document.querySelector(
@@ -23,13 +23,16 @@
   onMount(async () => {
     await loadInstagramScript()
 
-    if (window.instgrm && typeof windgiow.instgrm.Embeds.process === 'function')
+    if (window.instgrm && typeof window.instgrm.Embeds.process === 'function')
       window.instgrm.Embeds.process()
 
-    window.addEventListener('astro:page-load', () => {
+    const load = () => {
       if (window.instgrm && typeof window.instgrm.Embeds.process === 'function')
         window.instgrm.Embeds.process()
-    })
+    }
+
+    window.addEventListener('astro:page-load', load)
+    window.addEventListener('astro:after-load', load)
   })
 
   export let id = ''

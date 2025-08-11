@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro'
 
-import chromium from 'chrome-aws-lambda'
 import type { Browser } from 'puppeteer-core'
+import type { Browser as BrowserLocal } from 'puppeteer'
 
 const ACCOUNT_NAME = 'ajprogcomp'
 
@@ -17,20 +17,40 @@ const getImageBase64 = async (url: string) => {
   return imageBase64
 }
 
-let browser: Browser | null = null
+const getBrowser = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    const [chromiumModule, puppeteerModule] = await Promise.all([
+      import('@sparticuz/chromium'),
+      import('puppeteer-core'),
+    ])
 
-const getProfile = async (take = 1) => {
-  if (!browser) {
-    const isLocal = !!process.env.CHROME_EXECUTABLE_PATH
+    const chromium = chromiumModule.default
+    const puppeteer = puppeteerModule.default
 
-    browser = await chromium.puppeteer.launch({
-      args: chromium.args,
+    return puppeteer.launch({
+      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+      // @ts-ignore
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
+      executablePath: await chromium.executablePath(),
+      // @ts-ignore
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
     })
   }
+
+  const puppeteerModule = await import('puppeteer')
+  const puppeteer = puppeteerModule.default
+
+  return puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  })
+}
+
+let browser: Browser | BrowserLocal | null = null
+
+const getProfile = async (take = 1) => {
+  if (!browser) browser = await getBrowser()
 
   const page = await browser.newPage()
 

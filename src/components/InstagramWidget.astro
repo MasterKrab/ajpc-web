@@ -3,6 +3,7 @@ interface Props {
   key: string
   username: string
   invalidateCache?: boolean
+  cacheTime?: number
   maxCaptionSize?: number
 }
 
@@ -20,11 +21,15 @@ const {
   username,
   key,
   invalidateCache = false,
+  cacheTime = 1000 * 60 * 60 * 5, // 5 hours
   maxCaptionSize = 200,
 } = Astro.props
 
 // @ts-ignore
-const cacheStore = (globalThis.cache ??= new Map<string, Data>())
+const cacheStore = new Map<string, { time: number; data: Data }>()
+
+if (Date.now() - (cacheStore.get(key)?.time ?? 0) > cacheTime)
+  cacheStore.delete(key)
 
 if (invalidateCache || !cacheStore.has(key)) {
   const response = await fetch(
@@ -46,14 +51,18 @@ if (invalidateCache || !cacheStore.has(key)) {
 
   const post = data?.user?.edge_owner_to_timeline_media.edges[0].node
 
-  cacheStore.set(key, {
+  const finalData = {
     username,
     profileURL: data?.user?.profile_pic_url,
     post: {
       url: post.display_url,
       caption: post.edge_media_to_caption.edges[0]?.node.text,
-      likes: post.edge_media_preview_like.count,
     },
+  }
+
+  cacheStore.set(key, {
+    time: Date.now(),
+    data: finalData,
   })
 }
 
@@ -64,8 +73,8 @@ const getImage = async (url: string) => {
   return `data:image/jpeg;base64,${base64}`
 }
 
-const { profileURL, post } = cacheStore.get(key)!
-const { url: postImageURL, caption, likes } = post
+const { profileURL, post } = cacheStore.get(key)!.data
+const { url: postImageURL, caption } = post
 
 const profileImage = await getImage(profileURL)
 const postImage = await getImage(postImageURL)

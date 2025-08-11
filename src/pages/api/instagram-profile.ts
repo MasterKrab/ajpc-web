@@ -79,6 +79,8 @@ const getProfile = async (take = 1) => {
     const posts = await Promise.all(
       postsIds.map(async (id) => {
         try {
+          const page = await browser!.newPage()
+
           await page.goto(`${PAGE_URL}/${ACCOUNT_NAME}/p/${id}`, {
             waitUntil: 'networkidle2',
           })
@@ -114,8 +116,6 @@ const getProfile = async (take = 1) => {
     }
   } catch (error) {
     console.error(error)
-  } finally {
-    await browser.close()
   }
 }
 

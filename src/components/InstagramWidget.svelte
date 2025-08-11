@@ -15,13 +15,7 @@
       script.src = 'https://www.instagram.com/embed.js'
       script.async = true
       script.onload = () => resolve()
-      script.onerror = () => {
-        // fallback
-        const fallback = document.createElement('script')
-        fallback.src = 'https://iframely.net/files/instagram_embed.js'
-        document.body.appendChild(fallback)
-        resolve()
-      }
+
       document.body.appendChild(script)
     })
   }
@@ -29,32 +23,27 @@
   onMount(async () => {
     await loadInstagramScript()
 
-    // Ejecuta la inicialización cuando el componente carga
-    if (window.instgrm && typeof window.instgrm.Embeds.process === 'function') {
+    if (window.instgrm && typeof windgiow.instgrm.Embeds.process === 'function')
       window.instgrm.Embeds.process()
-    }
 
-    // Escucha cambio de ruta SPA con evento astro:page-load
     window.addEventListener('astro:page-load', () => {
-      if (
-        window.instgrm &&
-        typeof window.instgrm.Embeds.process === 'function'
-      ) {
+      if (window.instgrm && typeof window.instgrm.Embeds.process === 'function')
         window.instgrm.Embeds.process()
-      }
     })
   })
+
+  export let id = ''
 </script>
 
 <blockquote
   class="instagram-media"
-  data-instgrm-permalink="https://www.instagram.com/p/DMRc0rexFrj/?utm_source=ig_embed&utm_campaign=loading"
+  data-instgrm-permalink="https://www.instagram.com/p/{id}/?utm_source=ig_embed&utm_campaign=loading"
   data-instgrm-version="14"
   style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; width: 400px; min-width: 300px1 "
 >
   <div style="padding:16px;">
     <a
-      href="https://www.instagram.com/p/DMRc0rexFrj/?utm_source=ig_embed&utm_campaign=loading"
+      href="https://www.instagram.com/p/{id}/?utm_source=ig_embed&utm_campaign=loading"
       style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;"
       target="_blank"
     >
@@ -150,7 +139,7 @@
       style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"
     >
       <a
-        href="https://www.instagram.com/p/DMRc0rexFrj/?utm_source=ig_embed&utm_campaign=loading"
+        href="https://www.instagram.com/p/{id}/?utm_source=ig_embed&utm_campaign=loading"
         style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;"
         target="_blank"
         >A post shared by Academia Juvenil de Programación Competitiva

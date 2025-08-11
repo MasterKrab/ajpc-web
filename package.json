@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/svelte": "^7.1.0",
+    "@astrojs/vercel": "^8.2.5",
     "@cxa/astro-inline-svg": "0.5.1",
     "@fontsource-variable/onest": "5.2.9",
     "@iconify-json/material-symbols": "1.2.30",

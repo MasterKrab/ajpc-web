@@ -9,8 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.4.2",
-    "@astrojs/vercel": "^8.2.5",
+    "@astrojs/sitemap": "3.4.2",
+    "@astrojs/vercel": "8.2.5",
     "@cxa/astro-inline-svg": "0.5.1",
     "@fontsource-variable/onest": "5.2.9",
     "@iconify-json/material-symbols": "1.2.30",
@@ -20,7 +20,7 @@
     "astro-icon": "1.1.5",
     "cursor-effects": "1.0.17",
     "pnpm": "10.14.0",
-    "svelte": "^5.38.0"
+    "svelte": "5.38.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.1",

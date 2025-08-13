@@ -7,6 +7,7 @@ import '@styles/global.css'
 import { ClientRouter } from 'astro:transitions'
 
 import LoadThemeScript from '@components/theme/LoadThemeScript.astro'
+import Favicons from '@components/Favicons.astro'
 import Metadata from '@components/Metadata.astro'
 import Header from '@components/Header.astro'
 import Aside from '@components/Aside.astro'
@@ -25,9 +26,7 @@ const { metadata = {} } = Astro.props
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <Favicons />
 
     <Metadata {...metadata} />
 

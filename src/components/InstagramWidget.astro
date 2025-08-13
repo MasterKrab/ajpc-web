@@ -13,7 +13,7 @@ interface Data {
   post: {
     url: string
     caption: string
-    likes: number
+    id: string
   }
 }
 
@@ -55,8 +55,9 @@ if (invalidateCache || !cacheStore.has(key)) {
     username,
     profileURL: data?.user?.profile_pic_url,
     post: {
-      url: post.display_url,
-      caption: post.edge_media_to_caption.edges[0]?.node.text,
+      url: post.display_url as string,
+      caption: post.edge_media_to_caption.edges[0]?.node.text as string,
+      id: post.shortcode as string,
     },
   }
 
@@ -80,6 +81,7 @@ const profileImage = await getImage(profileURL)
 const postImage = await getImage(postImageURL)
 
 const profileLink = `https://www.instagram.com/${username}/`
+const postLink = `https://www.instagram.com/p/${post.id}/`
 ---
 
 <article class="widget">
@@ -93,11 +95,11 @@ const profileLink = `https://www.instagram.com/${username}/`
       <img class="widget__profile-image" src={profileImage} />
     </a>
   </header>
-  <a href={postImageURL} target="_blank" rel="noopener noreferrer">
+  <a href={postLink} target="_blank" rel="noopener noreferrer">
     <img class="widget__post-image" src={postImage} />
   </a>
   <p>
-    <a href={postImageURL} target="_blank" rel="noopener noreferrer">
+    <a href={postLink} target="_blank" rel="noopener noreferrer">
       {
         caption.length > maxCaptionSize
           ? `${caption.slice(0, maxCaptionSize)}...`

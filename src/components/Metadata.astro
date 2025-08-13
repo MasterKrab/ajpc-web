@@ -6,7 +6,9 @@ const {
 } = Astro.props
 
 const siteUrl = import.meta.env.PUBLIC_URL || ''
-const fullTitle = title ? `${title} | AJPC` : 'AJPC'
+const fullTitle = title
+  ? `${title} | Academia Juvenil de Programación Competitiva`
+  : 'Academia Juvenil de Programación Competitiva'
 ---
 
 <title>{fullTitle}</title>

@@ -3,52 +3,69 @@ import Layout from '@layouts/Layout.astro'
 ---
 
 <Layout>
-  <h1 class="title">Academia Juvenil de <br /> Programación Competitiva 💻</h1>
+  <h1 class="title">
+    <span class="title__letter-a">A</span>cademia <span class="title__letter-j"
+      >J</span
+    >uvenil de <br /> Programación
+    <span class="title__letter-c">C</span>ompetitiva 💻
+  </h1>
 
   <p>
     La <strong class="highlight"
-      >Academia Juvenil de Programación Competitiva</strong
-    > es un proyecto educativo <strong class="highlight">gratuito</strong> que busca
-    fomentar el interés por la programación 💻 y el pensamiento lógico 🧠 en estudiantes
-    de enseñanza básica y media.
+      >Academia Juvenil de Programación Competitiva es un proyecto educativo <strong
+        class="highlight">gratuito</strong
+      > que busca fomentar el interés por la programación 💻 y el pensamiento lógico
+      🧠 en estudiantes de enseñanza básica y media.
+    </strong>
+
+    <p>
+      El objetivo es que los jóvenes desarrollen habilidades de análisis y
+      resolución de problemas a través de la programación, preparándolos para
+      participar en competencias como la <strong class="highlight"
+        >Olimpiada Chilena de Informática 🏅</strong
+      > y otros torneos nacionales e internacionales.
+    </p>
   </p>
 
-  <p>
-    El objetivo es que los jóvenes desarrollen habilidades de análisis y
-    resolución de problemas a través de la programación, preparándolos para
-    participar en competencias como la <strong class="highlight"
-      >Olimpiada Chilena de Informática 🏅</strong
-    > y otros torneos nacionales e internacionales.
-  </p>
-</Layout>
-
-<style>
-  .title {
-    text-align: center;
-    margin-top: 2rem;
-    padding: 1rem;
-    font-size: 2rem;
-  }
-
-  @media screen and (min-width: 1024px) {
+  <style>
     .title {
-      font-size: 3rem;
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      font-size: 2rem;
     }
-  }
 
-  .image-container {
-    display: grid;
-    place-items: center;
-    background-color: var(--image-background-color);
-    max-width: 35rem;
-    padding: 4rem;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 2rem;
-  }
+    @media screen and (min-width: 1024px) {
+      .title {
+        font-size: 3rem;
+      }
+    }
 
-  .image {
-    padding: 1rem;
-    width: 100%;
-  }
-</style>
+    .title__letter-a {
+      color: var(--brand-primary);
+    }
+
+    .title__letter-j {
+      color: var(--brand-secondary);
+    }
+    .title__letter-c {
+      color: var(--brand-tertiary);
+    }
+
+    .image-container {
+      display: grid;
+      place-items: center;
+      background-color: var(--image-background-color);
+      max-width: 35rem;
+      padding: 4rem;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 2rem;
+    }
+
+    .image {
+      padding: 1rem;
+      width: 100%;
+    }
+  </style>
+</Layout>

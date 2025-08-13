@@ -31,6 +31,12 @@ const { metadata = {} } = Astro.props
 
     <Metadata {...metadata} />
 
+    <link
+      rel="canonical"
+      href={`${import.meta.env.PUBLIC_URL}/${Astro.url.pathname}`}
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
     <LoadThemeScript />
     <slot name="head" />
     <meta name="generator" content={Astro.generator} />

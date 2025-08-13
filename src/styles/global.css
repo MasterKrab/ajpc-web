@@ -16,6 +16,8 @@
   --page-max-width: 80rem;
 
   --transition-theme: background-color 0.3s ease-in-out, color 0.2s ease-in-out;
+
+  --shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 :root.dark {
@@ -29,6 +31,8 @@
   --text-color-tertiary: #aaa;
   --foreground-color: #111;
   --image-background-color: #fff;
+
+  --shadow: 1rem 0.5rem 1rem rgba(255, 255, 255, 0.1);
 }
 
 :root.high-contrast {
@@ -43,6 +47,8 @@
   --accent-color: var(--brand-primary);
   --foreground-color: #000;
   --image-background-color: #fff;
+
+  --shadow: 0.5rem 0.5rem 1rem rgba(255, 255, 255, 0.1);
 
   font-weight: bold;
 }

@@ -1,10 +1,13 @@
 ---
-import InstagramWidget from '@components/InstagramWidget.astro'
+import InstagramWidget from '@components/InstagramWidget/index.astro'
 import Messages from '@components/messages/Messages.astro'
+import Cache from '@components/Cache.astro'
 ---
 
 <aside class="aside">
-  <InstagramWidget username="ajprogcomp" key="instagram-widget" />
+  <Cache key="instagram-widget-ajprogcomp">
+    <InstagramWidget username="ajprogcomp" />
+  </Cache>
   <Messages />
 </aside>
 

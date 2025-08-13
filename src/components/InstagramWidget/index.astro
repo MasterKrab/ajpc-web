@@ -1,0 +1,81 @@
+---
+import type { Data } from '@components/InstagramWidget/getData'
+
+import { getData } from '@components/InstagramWidget/getData'
+import getImage from '@utils/getImage'
+
+interface Props {
+  username: string
+  maxCaptionSize?: number
+}
+
+const { username, maxCaptionSize = 200 } = Astro.props
+
+const data = (await getData(username)) || {
+  profileURL: '',
+  post: {
+    id: '',
+    url: '',
+    caption: '',
+  },
+}
+
+console.log(data)
+
+const { profileURL, post } = data
+const { url: postImageURL, caption } = post
+
+const profileImage = profileURL ? await getImage(profileURL) : ''
+const postImage = postImageURL ? await getImage(postImageURL) : ''
+
+const profileLink = `https://www.instagram.com/${username}/`
+const postLink = `https://www.instagram.com/p/${post.id}/`
+---
+
+{
+  data.profileURL && (
+    <article class="widget">
+      <header class="widget__header">
+        <h2 class="widget__title">
+          <a href={profileLink} target="_blank" rel="noopener noreferrer">
+            {username}
+          </a>
+        </h2>
+        <a href={profileLink} target="_blank" rel="noopener noreferrer">
+          <img class="widget__profile-image" src={profileImage} />
+        </a>
+      </header>
+      <a href={postLink} target="_blank" rel="noopener noreferrer">
+        <img class="widget__post-image" src={postImage} />
+      </a>
+      <p>
+        <a href={postLink} target="_blank" rel="noopener noreferrer">
+          {caption.length > maxCaptionSize
+            ? `${caption.slice(0, maxCaptionSize)}...`
+            : caption}
+        </a>
+      </p>
+    </article>
+  )
+}
+
+<style>
+  .widget__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .widget__title {
+    order: 1;
+    font-size: 1.25rem;
+  }
+
+  .widget__profile-image {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+</style>

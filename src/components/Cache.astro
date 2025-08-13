@@ -1,0 +1,31 @@
+---
+interface Props {
+  key: string
+  invalidateCache?: boolean
+  cacheTime?: number
+}
+
+const {
+  key,
+  invalidateCache = false,
+  cacheTime = 1000 * 60 * 60 * 5, // 5 hours
+} = Astro.props
+
+// @ts-ignore
+const cacheStore = (globalThis.cacheStore ??= new Map<string, Cache>())
+
+if (
+  invalidateCache ||
+  Date.now() - (cacheStore.get(key)?.time ?? 0) > cacheTime
+)
+  cacheStore.delete(key)
+
+let html = cacheStore.get(key)?.html
+
+if (!html) {
+  html = await Astro.slots.render('default')
+  cacheStore.set(key, { time: Date.now(), html })
+}
+---
+
+<Fragment set:html={html} />

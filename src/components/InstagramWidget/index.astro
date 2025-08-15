@@ -40,11 +40,15 @@ const postLink = `https://www.instagram.com/p/${post.id}/`
           </a>
         </h2>
         <a href={profileLink} target="_blank" rel="noopener noreferrer">
-          <img class="widget__profile-image" src={profileImage} />
+          <img
+            class="widget__profile-image"
+            src={profileImage}
+            alt={username}
+          />
         </a>
       </header>
       <a href={postLink} target="_blank" rel="noopener noreferrer">
-        <img class="widget__post-image" src={postImage} />
+        <img class="widget__post-image" src={postImage} alt={caption} />
       </a>
       <p>
         <a href={postLink} target="_blank" rel="noopener noreferrer">

@@ -1,0 +1,183 @@
+---
+import Layout from '@layouts/Layout.astro'
+import { Picture } from 'astro:assets'
+import 'photoswipe/style.css'
+
+import { Masonry } from 'astro-masonry'
+
+const posts: ExportedMarkdownModuleEntities[] = Object.values(
+  import.meta.glob('@assets/people/*.md', { eager: true }),
+)
+
+const imageCallers = import.meta.glob<{
+  default: ImageMetadata
+}>(`@assets/people/images/*/*.{jpeg,jpg,png,gif}`)
+
+const imagesModules = await Promise.all(
+  Object.values(imageCallers).map((image) => image()),
+)
+
+const images = await Promise.all(
+  imagesModules.map(async (module) => {
+    const { src, width, height } = module.default
+    return { data: module.default, path: src, width, height }
+  }),
+)
+
+const people = await Promise.all(
+  posts.map(async (post) => {
+    const nameSlug = post.file.split('/').pop()!.replace('.md', '')
+
+    return {
+      slug: nameSlug,
+      name: post.frontmatter.name,
+      file: post.file,
+      profile: images.find(({ path }) =>
+        path.includes(`${nameSlug}/profile.jpg`),
+      )!,
+      images: images.filter(({ path }) =>
+        path.match(new RegExp(`${nameSlug}/\\d+\\.jpg`)),
+      ),
+      content: await post.compiledContent(),
+    }
+  }),
+)
+---
+
+<Layout
+  metadata={{
+    title: 'Quiénes somos',
+    description: 'Información sobre la Academia Juvenil de Programación',
+  }}
+>
+  <h1>Quiénes somos 🌟</h1>
+
+  {
+    people.map(({ name, slug, profile, images, content }) => (
+      <article class="person" data-id={slug}>
+        <h2 class="person__name">{name}</h2>
+
+        <div class="person__content">
+          {/* @ts-ignore */}
+          <Picture
+            class="person__profile-image"
+            src={profile.data}
+            alt={name}
+            formats={['avif', 'webp', 'png']}
+            placeholder="blur"
+          />
+
+          <div class="person__bio" set:html={content} />
+        </div>
+        <div class="person__gallery" id={slug}>
+          <Masonry sortByHeight={true}>
+            {images.map(({ data, width, height }) => (
+              <a
+                class="person__gallery-item"
+                href={data.src}
+                target="_blank"
+                data-pswp-width={width}
+                data-pswp-height={height}
+              >
+                {/* @ts-ignore */}
+                <Picture
+                  class="person__gallery-image"
+                  src={data}
+                  alt={name}
+                  formats={['avif', 'webp', 'png']}
+                  placeholder="blur"
+                />
+              </a>
+            ))}
+          </Masonry>
+        </div>
+      </article>
+    ))
+  }
+
+  <script>
+    // @ts-ignore
+    import PhotoSwipeLightbox from 'photoswipe/lightbox'
+    // @ts-ignore
+    import pswpModule from 'photoswipe'
+
+    document.addEventListener('astro:page-load', () => {
+      document.querySelectorAll('.person__gallery-image').forEach((image) => {
+        image.addEventListener('load', () =>
+          image.classList.add('person__gallery-image--loaded'),
+        )
+
+        if (image.complete) image.classList.add('person__gallery-image--loaded')
+      })
+
+      const ids = Array.from(document.querySelectorAll('.person')).map(
+        (element) => element.getAttribute('data-id'),
+      )
+
+      const lightbox = new PhotoSwipeLightbox({
+        gallery: `#${ids.join(', #')}`,
+        children: 'a',
+        pswpModule,
+      })
+
+      lightbox.init()
+    })
+  </script>
+</Layout>
+
+<style>
+  .person {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+  }
+
+  .person__name {
+    margin-bottom: 0;
+    font-size: 2rem;
+  }
+
+  @media screen and (max-width: 75rem) {
+    .person__name {
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+  }
+
+  .person__profile-image {
+    width: 70%;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: 75rem) {
+    .person__profile-image {
+      width: 25rem;
+      float: right;
+      margin: 0.75rem;
+      shape-outside: circle(50%);
+    }
+  }
+
+  .person__gallery {
+    margin-top: 1rem;
+  }
+
+  .person__gallery-item {
+    display: block;
+    margin: 0.25rem;
+  }
+
+  .person__gallery-image {
+    filter: blur(10px);
+    transition: filter 0.3s ease;
+    border-radius: 0.5rem;
+  }
+
+  .person__gallery-image--loaded {
+    filter: blur(0);
+  }
+</style>

@@ -22,6 +22,7 @@
     "cursor-effects": "1.0.17",
     "photoswipe": "5.4.4",
     "pnpm": "10.14.0",
+    "sharp": "^0.34.3",
     "svelte": "5.38.0"
   },
   "devDependencies": {

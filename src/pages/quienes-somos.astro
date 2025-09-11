@@ -11,33 +11,27 @@ const posts: ExportedMarkdownModuleEntities[] = Object.values(
 
 const imageCallers = import.meta.glob<{
   default: ImageMetadata
-}>(`@assets/people/images/*/*.{jpeg,jpg,png,gif}`)
+}>(`@assets/people/images/*/*.{jpeg,jpg,png,gif}`, { eager: true })
 
-const imagesModules = await Promise.all(
-  Object.values(imageCallers).map((image) => image()),
-)
+const images: Record<string, ImageMetadata> = {}
 
-const images = await Promise.all(
-  imagesModules.map(async (module) => {
-    const { src, width, height } = module.default
-    return { data: module.default, path: src, width, height }
-  }),
-)
+for (const path in imageCallers)
+  images[path] = (imageCallers[path] as any).default
 
 const people = await Promise.all(
   posts.map(async (post) => {
-    const nameSlug = post.file.split('/').pop()!.replace('.md', '')
+    const slug = post.file.split('/').pop()!.replace('.md', '')
 
     return {
-      slug: nameSlug,
+      slug,
       name: post.frontmatter.name,
       file: post.file,
-      profile: images.find(({ path }) =>
-        path.includes(`${nameSlug}/profile.jpg`),
-      )!,
-      images: images.filter(({ path }) =>
-        path.match(new RegExp(`${nameSlug}/\\d+\\.jpg`)),
-      ),
+      profile: images[`/src/assets/people/images/${slug}/profile.jpg`],
+      images: Object.entries(images)
+        .filter(
+          ([path]) => path.includes(`/${slug}/`) && path.match(/\d+\.jpg$/),
+        )
+        .map(([_, img]) => img),
       content: await post.compiledContent(),
     }
   }),
@@ -60,8 +54,8 @@ const people = await Promise.all(
         <div class="person__content">
           {/* @ts-ignore */}
           <Picture
-            class="person__profile-image"
-            src={profile.data}
+            class="person__profile-image blur"
+            src={profile}
             alt={name}
             formats={['avif', 'webp', 'png']}
             placeholder="blur"
@@ -71,18 +65,18 @@ const people = await Promise.all(
         </div>
         <div class="person__gallery" id={slug}>
           <Masonry sortByHeight={true}>
-            {images.map(({ data, width, height }) => (
+            {images.map((image) => (
               <a
                 class="person__gallery-item"
-                href={data.src}
+                href={image.src}
                 target="_blank"
-                data-pswp-width={width}
-                data-pswp-height={height}
+                data-pswp-width={image.width}
+                data-pswp-height={image.height}
               >
                 {/* @ts-ignore */}
                 <Picture
-                  class="person__gallery-image"
-                  src={data}
+                  class="person__gallery-image blur"
+                  src={image}
                   alt={name}
                   formats={['avif', 'webp', 'png']}
                   placeholder="blur"
@@ -102,13 +96,13 @@ const people = await Promise.all(
     import pswpModule from 'photoswipe'
 
     document.addEventListener('astro:page-load', () => {
-      document.querySelectorAll('.person__gallery-image').forEach((image) => {
-        image.addEventListener('load', () =>
-          image.classList.add('person__gallery-image--loaded'),
-        )
+      document
+        .querySelectorAll('.person__gallery-image,.person__profile-image')
+        .forEach((image) => {
+          image.addEventListener('load', () => image.classList.add('loaded'))
 
-        if (image.complete) image.classList.add('person__gallery-image--loaded')
-      })
+          if (image.complete) image.classList.add('loaded')
+        })
 
       const ids = Array.from(document.querySelectorAll('.person')).map(
         (element) => element.getAttribute('data-id'),
@@ -172,12 +166,15 @@ const people = await Promise.all(
   }
 
   .person__gallery-image {
-    filter: blur(10px);
-    transition: filter 0.3s ease;
     border-radius: 0.5rem;
   }
 
-  .person__gallery-image--loaded {
+  .blur {
+    filter: blur(10px);
+    transition: filter 0.3s ease;
+  }
+
+  .loaded {
     filter: blur(0);
   }
 </style>

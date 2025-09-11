@@ -36,13 +36,13 @@ importers:
         specifier: 1.1.5
         version: 1.1.5
       astro-masonry:
-        specifier: ^1.2.2
+        specifier: 1.2.2
         version: 1.2.2
       cursor-effects:
         specifier: 1.0.17
         version: 1.0.17
       photoswipe:
-        specifier: ^5.4.4
+        specifier: 5.4.4
         version: 5.4.4
       pnpm:
         specifier: 10.14.0
@@ -55,7 +55,7 @@ importers:
         specifier: 3.3.1
         version: 3.3.1
       '@types/photoswipe':
-        specifier: ^5.2.5
+        specifier: 5.2.5
         version: 5.2.5
       '@typescript-eslint/parser':
         specifier: 8.39.0

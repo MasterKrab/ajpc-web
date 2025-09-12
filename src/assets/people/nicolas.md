@@ -1,5 +1,6 @@
 ---
 name: Nicolás Aballay Fernandez
+priority: 0
 ---
 
 ¡Holaa! Soy **Nico**, estoy en **1ero medio** y desde chico me gustaron las **matemáticas** y la **programación**. Me gusta **progcomp** porque me **desafía constantemente** a **mejorar y aprender**. Esto me llevó a experiencias **super divertidas** donde conocí gente muy **bacán** (OCI, IOI), además de **ganar más confianza** en mi **habilidad**.

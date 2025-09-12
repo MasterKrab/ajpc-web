@@ -1,5 +1,6 @@
 ---
 name: Leandro Parada Contreras
+priority: 0
 ---
 
 Comencé en la **programación competitiva** en el año **2022**, casi por accidente, después de descubrirla en una **conversación casual con un amigo**. Desde entonces me fascinó la **complejidad de los problemas** y el **desafío** que implicaban, lo que me motivaba a **seguir aprendiendo** y a **resolver muchos de ellos**. Esto luego me abrió las puertas para **participar en competencias increíbles** y **ampliar mis conocimientos**.
